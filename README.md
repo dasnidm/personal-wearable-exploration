@@ -43,5 +43,3 @@ The raw recordings and phone metadata are not included. The earlier report uses 
 ## My contribution and assistance
 
 I defined the project, collected the recordings, and used the outputs to explore questions about signal quality and patterns. Coding, analysis implementation, and report drafting were extensively assisted by Codex. This is an early learning project with no formal lab supervision or validated state-prediction result.
-
-The repository name `cs130` comes from its original coursework use.
