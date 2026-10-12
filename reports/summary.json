@@ -1,0 +1,31 @@
+{
+  "input_sha256": "de325bbd1e53a0def627ba1c0880f5dfb6923a287242288a5a330fad0a495f51",
+  "observed_minutes": 87469,
+  "elapsed_span_minutes": 113192,
+  "elapsed_span_days": 78.60555555555555,
+  "unobserved_minutes": 25723,
+  "collection_gaps": 58,
+  "largest_gap_minutes": 7622,
+  "joint_quality_minutes": 41665,
+  "joint_quality_rule": "Both sensors: received >= 54 and status-gated >= 48 per minute",
+  "signals": {
+    "hr": {
+      "received": 5193227,
+      "status_gated": 2972950,
+      "minutes_with_values": 62908,
+      "above_nominal_minutes": 8,
+      "status_gated_fraction_of_received": 0.5724667918425287,
+      "received_fraction_of_nominal_span": 0.764663433222607,
+      "status_gated_fraction_of_nominal_span": 0.43774442245623957
+    },
+    "eda": {
+      "received": 5188568,
+      "status_gated": 4108164,
+      "minutes_with_values": 68941,
+      "above_nominal_minutes": 10,
+      "status_gated_fraction_of_received": 0.791772219232744,
+      "received_fraction_of_nominal_span": 0.7639774306782576,
+      "status_gated_fraction_of_nominal_span": 0.6048961057318538
+    }
+  }
+}

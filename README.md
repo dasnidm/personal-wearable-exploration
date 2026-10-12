@@ -1,57 +1,47 @@
-# CS130 Personal Sensor Dataset
+# Personal wearable data exploration
 
-This repository contains a privacy-reduced, one-minute dataset derived from personal Galaxy Watch sensor recordings.
+A small personal project collecting and exploring heart rate (HR) and electrodermal activity (EDA) with a Galaxy Watch-Android phone logging prototype. I collected my own recordings over approximately 11 weeks in May-August 2026, then explored collection gaps, signal quality, and recurring patterns.
 
-## Data
+I wanted to understand what the recordings could support before trying to interpret them as psychological states.
 
-`data/personal_sensor_minutes.csv` contains one row per observed minute. Absolute timestamps, session identifiers, device identifiers, source filenames, task names, and phone models are excluded. Time is represented as minutes elapsed from the beginning of the dataset.
+## Start here
 
-The dataset is descriptive and is not a medical dataset. Heart rate and EDA are wearable measurements with missingness and SDK quality flags. EDA must not be interpreted directly as stress, and the data must not be used for diagnosis.
+- [Data overview](reports/data-overview.md): a short, reproducible summary of the public minute-level data.
+- [Earlier pattern exploration](reports/pattern-exploration.md): an existing August 2026 report, selected aggregate results, and a figure from the original analyses.
+- [Analysis code](analysis/summarize_minutes.py) and [data dictionary](data/README.md).
 
-### Columns
+## What I tried
 
-| Column | Description |
-|---|---|
-| `elapsed_min` | Minutes since the first recorded sample |
-| `hr_received_n` | HR callbacks received during the minute |
-| `hr_valid_n` | HR values passing the SDK status/value gate |
-| `hr_valid_fraction` | Valid HR count divided by the nominal 60 samples |
-| `hr_mean_bpm` | Mean valid heart rate |
-| `hr_median_bpm` | Median valid heart rate |
-| `hr_sd_bpm` | Within-minute standard deviation of valid heart rate |
-| `eda_received_n` | EDA callbacks received during the minute |
-| `eda_valid_n` | EDA values passing the SDK status gate |
-| `eda_valid_fraction` | Valid EDA count divided by the nominal 60 samples |
-| `eda_mean_scl` | Mean valid skin conductance level |
-| `eda_median_scl` | Median valid skin conductance level |
-| `eda_sd_scl` | Within-minute standard deviation of valid EDA |
+- Collected personal HR and EDA recordings using a watch-phone prototype.
+- Checked missing intervals, SDK status flags, and differences between received and usable measurements.
+- Tried exploratory analyses of signal direction, persistence, and repeated HR/EDA patterns.
 
-## R
+The earlier pattern analysis mainly separated signal stability and availability. It did not establish stress, focus, sleep, or other physiological or psychological states.
 
-```r
-sensor <- read.csv(
-  "https://raw.githubusercontent.com/dasnidm/cs130/main/data/personal_sensor_minutes.csv"
-)
-head(sensor)
+![Existing exploratory cluster profiles](reports/assets/sequence-cluster-profiles.png)
+
+*An example from the earlier analysis: the clusters differ substantially in flat-signal and unknown-EDA proportions. The figure is descriptive, not evidence of distinct physiological states.*
+
+## Reproduce the public data overview
+
+Python 3.10 or later; no third-party packages are needed:
+
+```bash
+python analysis/summarize_minutes.py
 ```
 
-## Python
+This regenerates `reports/data-overview.md` and `reports/summary.json` from [the public CSV](data/personal_sensor_minutes.csv). It does not rerun the earlier raw-signal models.
 
-```python
-import pandas as pd
+## Data and scope
 
-sensor = pd.read_csv(
-    "https://raw.githubusercontent.com/dasnidm/cs130/main/data/personal_sensor_minutes.csv"
-)
-print(sensor.head())
-```
+The public CSV contains 87,469 observed one-minute bins. Gaps remain in the elapsed-minute index; absent minutes are not zero-valued measurements. Absolute timestamps, session/device IDs, activity labels, and free text are excluded.
 
-## Provenance and privacy
+The original recordings contained about 10.4 million HR/EDA callbacks. These are repeated measurements from **one person**, not independent observations or participants. SDK status gates are a quality filter, not independent physiological validation. IBI/HRV is excluded from this public dataset because the repeated/cumulative SDK bundles need further validation.
 
-- Source period: approximately May-August 2026.
-- Original scale: about 10.4 million HR/EDA callback rows.
-- Public transformation: status-gated one-minute aggregates.
-- Removed: absolute time, IDs, file provenance, labels, free text, and device metadata.
-- IBI bundles are omitted because their cumulative/repeated SDK format requires additional validation.
+The raw recordings and phone metadata are not included. The earlier report uses inputs that cannot be reconstructed from one-minute aggregates; its published tables are aggregate results from that existing work.
 
-The raw personal dataset is intentionally not included.
+## My contribution and assistance
+
+I defined the project, collected the recordings, and used the outputs to explore questions about signal quality and patterns. Coding, analysis implementation, and report drafting were extensively assisted by Codex. This is an early learning project with no formal lab supervision or validated state-prediction result.
+
+The repository name `cs130` comes from its original coursework use.
